@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FLAMES Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      color: white;
+    }
+    .container {
+      margin-top: 80px;
+      background: rgba(0,0,0,0.3);
+      padding: 30px;
+      border-radius: 15px;
+      display: inline-block;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
+      border: none;
+      width: 200px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #ff4081;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #ff1f60;
+    }
+    h2 {
+      margin-top: 20px;
+      font-size: 22px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔥 FLAMES Game 🔥</h1>
+    <input type="text" id="name1" placeholder="Enter First Name">
+    <input type="text" id="name2" placeholder="Enter Second Name">
+    <br>
+    <button onclick="playFlames()">Check Result</button>
+    <h2 id="result"></h2>
+  </div>
+
+  <script>
+    function playFlames() {
+      let name1 = document.getElementById("name1").value.toLowerCase().replace(/\s+/g, "");
+      let name2 = document.getElementById("name2").value.toLowerCase().replace(/\s+/g, "");
+
+      if(name1 === "" || name2 === "") {
+        document.getElementById("result").innerText = "⚠️ Please enter both names!";
+        return;
+      }
+
+      // Cancel common letters
+      let n1 = name1.split("");
+      let n2 = name2.split("");
+      for(let i=0; i<n1.length; i++) {
+        let index = n2.indexOf(n1[i]);
+        if(index !== -1) {
+          n1[i] = "";
+          n2[index] = "";
+        }
+      }
+      let count = (n1.join("") + n2.join("")).length;
+
+      // FLAMES logic
+      let flames = ["Friends","Love","Affection","Marriage","Enemy","Sister"];
+      let index = 0;
+      while(flames.length > 1) {
+        index = (index + count - 1) % flames.length;
+        flames.splice(index,1);
+      }
+
+      document.getElementById("result").innerText = "💖 Result: " + flames[0];
+    }
+  </script>
+</body>
+</html>
